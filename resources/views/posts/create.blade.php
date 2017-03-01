@@ -4,6 +4,7 @@
 
 @section('stylesheets')
     <link rel="stylesheet" href="{{ url('css/parsley.css') }}">
+    <link rel="stylesheet" href="{{ url('css/select2.min.css') }}">
 @endsection
 
 
@@ -17,6 +18,27 @@
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" name="title" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="slug">Slug</label>
+                            <input type="text" name="slug" class="form-control" minlength="5" maxlength="255" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category_id">Category</label>
+                            <select name="category_id" class="form-control">
+                                <option value="">Select Category</option>
+                                @foreach($categories as $category)
+                                    <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tags">Tag</label>
+                            <select name="tags[]" class="form-control select2-multi" multiple="multiple">
+                                @foreach($tags as $tag)
+                                    <option value="{{ $tag->id }}">{{ $tag->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>
@@ -42,6 +64,11 @@
             crossorigin="anonymous"></script>
 
     <script src="{{ url('js/parsley.min.js') }}"></script>
+    <script src="{{ url('js/select2.min.js') }}"></script>
+
+    <script type="text/javascript">
+        $('.select2-multi').select2();
+    </script>
 @endsection
 
 {{--@include('partials._footer')--}}

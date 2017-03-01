@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Post;
+use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -15,7 +17,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        $post = Post::all();
+        $post = Post::orderBy('id', 'desc')->paginate(6);
 
         return view('posts.index')->withPosts($post);
     }
@@ -27,7 +29,9 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('posts.create');
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('posts.create')->withCategories($categories)->withTags($tags);
     }
 
     /**
@@ -40,17 +44,23 @@ class PostsController extends Controller
     {
         // validate the input field
         $this->validate($request, [
-            'title' =>  'required|max:255',
-            'body'  =>  'required'
+            'title'         =>  'required|max:255',
+            'slug'          =>  'required|alpha_dash|min:5|max:255|unique:posts,slug',
+            'category_id'   =>  'required|integer',
+            'body'          =>  'required'
         ]);
 
         // store in the database
         $post = new Post;
 
-        $post->title = $request->title;
-        $post->body = $request->body;
+        $post->title        = $request->title;
+        $post->slug         = $request->slug;
+        $post->category_id  = $request->category_id;
+        $post->body         = $request->body;
 
         $post->save();
+
+        $post->tags()->sync($request->tags, false);
 
         Session::flash('success', 'Post is successfully saved');
 
@@ -79,7 +89,9 @@ class PostsController extends Controller
     public function edit($id)
     {
         $post = Post::find($id);
-        return view('posts.edit')->withPost($post);
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('posts.edit')->withPost($post)->withCategories($categories)->withTags($tags);
     }
 
     /**
@@ -92,18 +104,37 @@ class PostsController extends Controller
     public function update(Request $request, $id)
     {
         // validate the input field
-        $this->validate($request, [
-            'title' =>  'required|max:255',
-            'body'  =>  'required'
-        ]);
+        $post = Post::find($id);
+        if ($request->input('slug') == $post->slug){ // no need to disturb server to validate slug if it was not edited
+            $this->validate($request, [
+                'title'         =>  'required|max:255',
+                'category_id'   =>  'required|integer',
+                'body'          =>  'required'
+            ]);
+        }else{
+            $this->validate($request, [
+                'title'         =>  'required|max:255',
+                'slug'          =>  'required|alpha_dash|min:5|max:255',
+                'category_id'   =>  'required|integer',
+                'body'          =>  'required'
+            ]);
+        }
+
 
         // store in the database
         $post = Post::find($id);
 
         $post->title = $request->input('title');
+        $post->slug = $request->input('slug');
+        $post->category_id = $request->input('category_id');
         $post->body = $request->input('body');
 
         $post->save();
+        if(isset($request->tags)){
+            $post->tags()->sync($request->tags); //not quite get this part
+        }else{
+            $post->tags()->sync([]);
+        }
 
         Session::flash('success', 'Post is successfully saved');
 
@@ -118,6 +149,11 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+
+        Session::flash('success', 'The post was successfully deleted');
+
+        return redirect()->route('posts.index');
     }
 }

@@ -8,6 +8,7 @@
 
 @section('content')
     <div class="container">
+        <div class="pull-right"><a href="/posts/create">Create Post</a></div>
         <div class="row">
 
             @foreach($posts as $post)
@@ -20,8 +21,8 @@
                     <div class="panel-footer">
                         Article written by:
                         <span class="pull-right">
-                            <a href="posts/{{$post->id}}" style="margin-right: 3px">View</a>
-                            <a href="posts/{{$post->id}}/edit" class="btn btn-primary btn-xs" style="margin-right: 3px">Edit</a>
+                            <a href="/blog/{{$post->slug}}" style="margin-right: 3px">View</a>
+                            <a href="/posts/{{$post->id}}/edit" class="btn btn-primary btn-xs" style="margin-right: 3px">Edit</a>
                         </span>
                     </div>
                 </div>
@@ -29,6 +30,7 @@
 
             @endforeach
         </div>
+        {{ $posts->links() }}
     </div>
 
 

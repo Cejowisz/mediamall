@@ -2,11 +2,7 @@
 
 @section('title', '| Home')
 
-@include('partials._header')
-
 @section('content')
 
-
+<h1>This is home my home</h1>
 @endsection
-
-@include('partials._footer')

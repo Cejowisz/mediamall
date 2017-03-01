@@ -1,6 +1,6 @@
 @extends('layout.main')
 
-@section('title', '| Post')
+@section('title', '| Post Page')
 
 @section('success')
     @include('partials._messages')
@@ -13,12 +13,9 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><b>{{ $post->title }}</b></h4></div>
                     <div class="panel-body">
-                        {{ $post->body }} <br/>
-                        @foreach($post->tags as $tag)
-                            <span class="label label-default" style="margin-right: 5px;">
-                                {{ $tag->name }}
-                            </span>
-                        @endforeach
+                        {{ $post->body }}
+                        <hr/>
+                        {{ $post->category->name }}
                     </div>
                     <div class="panel-footer">Article written by: </div>
                 </div>
@@ -27,24 +24,12 @@
             <div class="col-sm-4">
                 <div class="well">
                     <dl class="dl-horizontal">
-                        <label>Url</label>
-                        <a href="{{ url($post->slug) }}">{{ url($post->slug) }}</a>
-                    </dl>
-
-                    <dl class="dl-horizontal">
-                        <label>Category</label>
-                        <p>{{ $post->category->name }}</p>
-                    </dl>
-                    <dl class="dl-horizontal">
                         <dt>Created at:</dt>
                         <dd>{{ date('M j, Y h:ia', strtotime($post->created_at)) }}</dd>
                     </dl>
-                    <dl class="dl-horizontal">
-                        <dt>Updated at:</dt>
-                        <dd>{{ date('M j, Y h:ia', strtotime($post->updated_at)) }}</dd>
-                    </dl>
                     <hr>
-                    <div class="row">
+                    {{-- going to be editable if admin right --}}
+                    {{--<div class="row">
                         <div class="col-sm-6">
                             <a href="/posts/{{$post->id}}/edit" class="btn btn-primary btn-block">Edit</a>
                         </div>
@@ -55,7 +40,7 @@
                                 <button type="submit" class="pull-right btn btn-danger">Delete</button>
                             </form>
                         </div>
-                    </div>
+                    </div>--}}
                 </div>
             </div>
         </div>

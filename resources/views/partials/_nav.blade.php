@@ -10,27 +10,52 @@
             <a class="navbar-brand" href="#">Project name</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
-                </div>
-                <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
-            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <!-- Authentication Links -->
+                @if (Auth::guest())
+                    <li><a href="{{ url('/blog') }}">Blog</a></li>
+                    <li><a href="{{ url('/login') }}">Login</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>
+                @else
+                    <li><a href="{{ route('categories.index') }}">Categories</a></li>
+                    <li><a href="{{ route('tags.index') }}">Tags</a></li>
+                    <li><a href="{{ url('/posts') }}">Posts</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            {{ Auth::user()->name }} <span class="caret"></span>
+                        </a>
+
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="{{ url('/logout') }}"
+                                   onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
+            </ul>
         </div><!--/.navbar-collapse -->
     </div>
 
-    @if (Route::has('login'))
+ {{--   @if (Route::has('login'))
         <div class="top-right links">
             @if (Auth::check())
                 <a href="{{ url('/admin') }}">Admin</a>
+                <a href="{{ url('/posts') }}">Posts</a>
             @else
                 <a href="{{ url('/') }}">Home</a>
+                <a href="{{ url('/blog') }}">Blog</a>
                 <a href="{{ url('/login') }}">Login</a>
                 <a href="{{ url('/register') }}">Register</a>
             @endif
         </div>
-    @endif
+    @endif--}}
+
 </nav>

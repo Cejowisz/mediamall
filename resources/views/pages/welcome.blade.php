@@ -1,10 +1,12 @@
-{{--@extends('layout.main)--}}
+@extends('layout.main')
 
-{{--@section('title', ' | Home')--}}
+@section('title', '| Welcome')
 
-{{--@section('content')--}}
-    {{--this is home page--}}
+@include('partials._header')
+
+@section('content')
 
 
+@endsection
 
-{{--@endsection--}}
+@include('partials._footer')

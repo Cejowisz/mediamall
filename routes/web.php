@@ -12,5 +12,15 @@
 */
 
 Route::get('/', 'HomeController@index');
+Route::get('/home', 'HomeController@home');
+
+Route::get('/blog', 'BlogController@index');
+Route::get('/blog/{slug}', ['as' =>'blog.single', 'uses' => 'BlogController@single'])->where('slug', '[\w\d\-\_]+');
 
 Route::resource('posts', 'PostsController');
+Auth::routes();
+
+
+// Categories
+Route::resource('categories', 'CategoryController', ['except' =>  ['create']]);
+Route::resource('tags', 'TagController', ['except' =>  ['create']]);
