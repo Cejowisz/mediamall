@@ -14,6 +14,12 @@
             </div>
             <div class="col-sm-4">
                 <a href="{{ route('tags.edit', $tag->id) }}" class="btn btn-primary">Edit</a>
+                <span>
+                    <form action="{{ route('tags.destroy') }}" method="DELETE">
+                        {{method_field('DELETE')}}
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+                </span>
             </div>
         </div>
 
