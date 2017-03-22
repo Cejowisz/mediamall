@@ -10,15 +10,47 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-8">
+                <img src="{{ asset('uploads/' . $post->featured_image) }}" alt="">
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><b>{{ $post->title }}</b></h4></div>
                     <div class="panel-body">
-                        {{ $post->body }}
+                        {!! $post->body !!}
                         <hr/>
                         {{ $post->category->name }}
                     </div>
                     <div class="panel-footer">Article written by: </div>
                 </div>
+
+                <div class="comment">
+                    @foreach($post->comments as $comment)
+                        <p><strong>Name: {{ $comment->name }}</strong></p>
+                        <p>Comment:<br/> {{ $comment->comment }}</p>
+                    @endforeach
+                </div>
+
+                <form action="{{ route('comments.store', $post->id) }}" method="POST" class="form-horizontal">
+                    {{ csrf_field() }}
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="name" name="name" class="form-control" placeholder="Enter you name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="Email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea name="comment" class="form-control" cols="30" rows="10" placeholder="Your comment"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" class="btn btn-primary">
+                    </div>
+
+                </form>
+                
             </div>
 
             <div class="col-sm-4">

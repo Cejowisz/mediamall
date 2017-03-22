@@ -1,21 +1,26 @@
-<nav class="navbar navbar-inverse navbar-static-top">
+<nav class="navbar navbar-inverse navbar-static-top mm-nav">
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <div class="navbar-header mm-header">
+            <button type="button" class="navbar-toggle collapsed mm-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Project name</a>
+            <a class="navbar-brand" href="{{ url('/') }}"><img src="{{ url('img/logo.png') }}" style="max-width: 250px" alt="Mediamall Logo" class="img-responsive"></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right mm-navbar-nav">
                 <!-- Authentication Links -->
                 @if (Auth::guest())
-                    <li><a href="{{ url('/blog') }}">Blog</a></li>
+                    <li><a href="{{ url('/vision') }}">Vision</a></li>
+                    <li><a href="{{ url('/business') }}">Our Business</a></li>
+                    <li><a href="{{ url('/academy') }}">Academy</a></li>
+                    <li><a href="{{ url('/about') }}">About</a></li>
+
+                    {{--<li><a href="{{ url('/blog') }}">Blog</a></li>
                     <li><a href="{{ url('/login') }}">Login</a></li>
-                    <li><a href="{{ url('/register') }}">Register</a></li>
+                    <li><a href="{{ url('/register') }}">Register</a></li>--}}
                 @else
                     <li><a href="{{ route('categories.index') }}">Categories</a></li>
                     <li><a href="{{ route('tags.index') }}">Tags</a></li>

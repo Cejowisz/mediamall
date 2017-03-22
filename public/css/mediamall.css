@@ -1,0 +1,79 @@
+body{
+    font-family: 'Istok Web', sans-serif;
+}
+
+.form{
+    display: block;
+    margin-top: 100px;
+}
+
+.mm-nav{
+    background-color: #fff;
+    margin-bottom: 0 !important;
+}
+.mm-toggle{
+    background: #cecece !important;
+}
+
+.mm-header{
+    padding-bottom: 50px;
+}
+
+.mm-navbar-nav{
+    padding-top: 24px;
+}
+
+.h1-welcome{
+    font-family: 'Istok Web', sans-serif;
+    font-size: 50px;
+    padding-top: 50px;
+    padding-bottom: 30px;
+    color: #6AA3E4;
+}
+.img-welcome{
+    padding-top: 30px;
+    padding-bottom: 60px;
+}
+
+.biz{
+    background: url("../img/biz.jpg");
+    background-position: center center;
+    background-attachment: scroll;
+}
+
+.blog-row{
+    color: #fff;
+    margin-bottom: 50px;
+    margin-top: 50px;
+}
+
+.mm-fa .glyphicon{
+    font-size: 100px !important;
+}
+
+.mm-icon{
+    background: #6AA3E4 !important;
+}
+
+.what-we-do{
+    padding-bottom: 50px;
+}
+
+.middle{
+    display: table;
+}
+.h-m{
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.what-we-do h1, .what-we-do h3{
+    text-align: center;
+    color: #fff;
+}
+
+.right{
+    background: #cecece;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}

@@ -5,6 +5,13 @@
 @section('stylesheets')
     <link rel="stylesheet" href="{{ url('css/parsley.css') }}">
     <link rel="stylesheet" href="{{ url('css/select2.min.css') }}">
+    <script src="//cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector:'textarea',
+            plugins: 'link code image imagetools'
+        });
+    </script>
 @endsection
 
 
@@ -13,7 +20,7 @@
         <div class="row">
             <div class="col-sm-6 col-sm-offset-3">
                 <div class="form">
-                    <form method="POST" action="/posts/{{$post->id}}" class="form-horizontal" data-parsley-validate>
+                    <form method="POST" action="/posts/{{$post->id}}" class="form-horizontal" enctype="multipart/form-data" data-parsley-validate>
                         {{ csrf_field() }}
                         {{method_field('PUT')}}
                         <div class="form-group">
@@ -40,6 +47,10 @@
                                     <option value="{{ $tag->id }}">{{ $tag->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="featured_image">Update Featured Image</label>
+                            <input type="file" name="featured_image" accept="image/jpeg, image/png">
                         </div>
                         <div class="form-group">
                             <label for="body">Body</label>

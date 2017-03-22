@@ -7,6 +7,8 @@ use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class PostsController extends Controller
 {
@@ -47,7 +49,8 @@ class PostsController extends Controller
             'title'         =>  'required|max:255',
             'slug'          =>  'required|alpha_dash|min:5|max:255|unique:posts,slug',
             'category_id'   =>  'required|integer',
-            'body'          =>  'required'
+            'body'          =>  'required',
+            'featured_image' => 'sometimes|image'
         ]);
 
         // store in the database
@@ -57,6 +60,16 @@ class PostsController extends Controller
         $post->slug         = $request->slug;
         $post->category_id  = $request->category_id;
         $post->body         = $request->body;
+
+        // Save Image
+        if($request->hasFile('featured_image')){
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('uploads/' . $filename);
+            Image::make($image)->resize(700, 400)->save($location);
+
+            $post->featured_image = $filename;
+        }
 
         $post->save();
 
@@ -109,14 +122,16 @@ class PostsController extends Controller
             $this->validate($request, [
                 'title'         =>  'required|max:255',
                 'category_id'   =>  'required|integer',
-                'body'          =>  'required'
+                'body'          =>  'required',
+                'featured_image' => 'image'
             ]);
         }else{
             $this->validate($request, [
                 'title'         =>  'required|max:255',
                 'slug'          =>  'required|alpha_dash|min:5|max:255',
                 'category_id'   =>  'required|integer',
-                'body'          =>  'required'
+                'body'          =>  'required',
+                'featured_image' => 'image'
             ]);
         }
 
@@ -128,6 +143,21 @@ class PostsController extends Controller
         $post->slug = $request->input('slug');
         $post->category_id = $request->input('category_id');
         $post->body = $request->input('body');
+
+        // Save Image
+        if($request->hasFile('featured_image')){
+            $image = $request->file('featured_image');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('uploads/' . $filename);
+            Image::make($image)->resize(700, 400)->save($location);
+            $oldFile = $post->featured_image;
+
+            // Update the database
+            $post->featured_image = $filename;
+
+            // Delete the old pic
+            Storage::delete($oldFile);
+        }
 
         $post->save();
         if(isset($request->tags)){
@@ -151,6 +181,7 @@ class PostsController extends Controller
     {
         $post = Post::find($id);
         $post->tags()->detach();
+        Storage::delete($post->featured_image);
         
         $post->delete();
 

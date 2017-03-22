@@ -25,7 +25,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect()->action('PostsController@index');
+        return view('pages.home');
+        //return redirect()->action('PostsController@index');
     }
 
     public function home()

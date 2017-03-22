@@ -16,7 +16,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading"><h4><b>{{ $post->title }}</b></h4></div>
                     <div class="panel-body">
-                        <p>{{ substr($post->body, 0, 50) }} {{ strlen($post->body) > 50 ? "..." : "" }}</p>
+                        <p>{{ substr(strip_tags($post->body), 0, 50) }} {{ strlen(strip_tags($post->body)) > 50 ? "..." : "" }}</p>
                     </div>
                     <div class="panel-footer">
                         Article written by:
